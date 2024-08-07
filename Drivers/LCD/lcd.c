@@ -607,7 +607,6 @@ void lcd_init(void) {
     lcddev.id = lcd_rd_data();  /* 读取0X93 */
     lcddev.id <<= 8;
     lcddev.id |= lcd_rd_data(); /* 读取0X41 */
-    printf("LCD ID:%x\r\n", lcddev.id); /* 打印LCD ID */
 
     if (lcddev.id != 0X9341)    /* 不是 9341 , 尝试看看是不是 ST7789 */
     {
@@ -688,7 +687,6 @@ void lcd_init(void) {
      * 里面(卡死在f_putc函数), 所以, 必须初始化串口1, 或者屏蔽掉下面
      * 这行 printf 语句 !!!!!!!
      */
-    printf("LCD ID:%x\r\n", lcddev.id); /* 打印LCD ID */
 
     if (lcddev.id == 0X7789) {
         lcd_ex_st7789_reginit();    /* 执行ST7789初始化 */
@@ -1120,8 +1118,15 @@ void lcd_show_string(uint16_t x, uint16_t y, uint16_t width, uint16_t height, ui
 }
 
 
+void lcd_printf(uint16_t x, uint16_t y, const char *format, ...) {
+    char buffer[64] = {0};
+    va_list args;
 
-
+    va_start(args, format);
+    vsprintf(buffer, format, args);
+    va_end(args);
+    lcd_show_string(x, y, (lcddev.width - x), lcddev.height - y, 16, buffer, BLUE);
+}
 
 
 
