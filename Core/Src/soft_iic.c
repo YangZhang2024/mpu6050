@@ -71,7 +71,7 @@ void iic_stop(void) {
  *              0，接收应答成功
  */
 uint8_t iic_wait_ack(void) {
-    uint8_t waittime = 0;
+    uint8_t wait_time = 0;
     uint8_t rack = 0;
 
     IIC_SDA(1);     /* 主机释放SDA线(此时外部器件可以拉低SDA线) */
@@ -81,9 +81,8 @@ uint8_t iic_wait_ack(void) {
 
     while (IIC_READ_SDA)    /* 等待应答 */
     {
-        waittime++;
 
-        if (waittime > 250) {
+        if (wait_time++ > 250) {
             iic_stop();
             rack = 1;
             break;

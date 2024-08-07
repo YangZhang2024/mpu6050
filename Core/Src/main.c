@@ -23,7 +23,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "soft_iic.h"
+#include "delay.h"
+#include "lcd.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -75,14 +77,13 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+    delay_init(72);
   /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -94,12 +95,25 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+    HAL_Delay(50);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, 1);
+
+    iic_init();
+    iic_start();
+    iic_send_byte(0xD0);
+    // 测试用,返回0代表应答, 小灯常亮
+    if (!iic_wait_ack()) {
+        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, 0);
+        while (1);
+    }
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, 1);
+    iic_stop();
+
+    while (1) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
+    }
   /* USER CODE END 3 */
 }
 
@@ -153,11 +167,10 @@ void SystemClock_Config(void)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
-  __disable_irq();
-  while (1)
-  {
-  }
+    /* User can add his own implementation to report the HAL error return state */
+    __disable_irq();
+    while (1) {
+    }
   /* USER CODE END Error_Handler_Debug */
 }
 

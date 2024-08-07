@@ -10,11 +10,11 @@
 /* 引脚 定义 */
 
 #define IIC_SCL_GPIO_PORT               GPIOC
-#define IIC_SCL_GPIO_PIN                GPIO_PIN_12
+#define IIC_SCL_GPIO_PIN                GPIO_PIN_4
 #define IIC_SCL_GPIO_CLK_ENABLE()       do{ __HAL_RCC_GPIOC_CLK_ENABLE(); }while(0)   /* PC口时钟使能 */
 
 #define IIC_SDA_GPIO_PORT               GPIOC
-#define IIC_SDA_GPIO_PIN                GPIO_PIN_11
+#define IIC_SDA_GPIO_PIN                GPIO_PIN_5
 #define IIC_SDA_GPIO_CLK_ENABLE()       do{ __HAL_RCC_GPIOB_CLK_ENABLE(); }while(0)   /* PC口时钟使能 */
 
 /******************************************************************************************/
