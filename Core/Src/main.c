@@ -26,6 +26,8 @@
 #include "soft_iic.h"
 #include "delay.h"
 #include "lcd.h"
+#include "mpu6050.h"
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -97,18 +99,23 @@ int main(void)
   /* USER CODE BEGIN WHILE */
     HAL_Delay(50);
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, 1);
+//
+//    iic_init();
+//    iic_start();
+//    iic_send_byte(0xD0);
+//    // 测试�?,返回0代表应答, 小灯常亮
+//    if (!iic_wait_ack()) {
+//        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, 0);
+//        while (1);
+//    }
+//    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, 1);
+//    iic_stop();
 
-    iic_init();
-    iic_start();
-    iic_send_byte(0xD0);
-    // 测试用,返回0代表应答, 小灯常亮
-    if (!iic_wait_ack()) {
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, 0);
-        while (1);
-    }
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_8, 1);
-    iic_stop();
-
+    mpu6050_init();
+    // who am i
+    printf("mpu6050 id");
+    uint8_t id = mpu6050_read_reg(0x75);
+    printf("mpu6050 id: %x", id);
     while (1) {
     /* USER CODE END WHILE */
 
