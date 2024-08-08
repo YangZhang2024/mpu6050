@@ -117,9 +117,17 @@ int main(void)
 //    uint8_t id_str[10];
 //    sprintf((char *)id_str, "id: %x", id);
 //    lcd_show_string(10, 50, 240, 24, 24, (char *)id_str, BLUE);
-    lcd_printf(10, 50, "mpu6050 id: %x\r\n", id);
+    MPU6050_Result result = {};
     while (1) {
         /* USER CODE END WHILE */
+        HAL_Delay(20);
+        mpu_6050_get_data(&result);
+        lcd_printf(5, 10, "acc_x: %d", result.acc_x);
+        lcd_printf(5, 30, "acc_y: %d", result.acc_y);
+        lcd_printf(5, 50, "acc_z:%d", result.acc_z);
+        lcd_printf(5, 70, "gryo_x: %d", result.gryo_x);
+        lcd_printf(5, 90, "gryo_y: %d", result.gryo_y);
+        lcd_printf(5, 110, "gryo_z: %d", result.gryo_y);
 
         /* USER CODE BEGIN 3 */
     }

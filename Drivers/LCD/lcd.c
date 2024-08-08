@@ -1125,7 +1125,7 @@ void lcd_printf(uint16_t x, uint16_t y, const char *format, ...) {
     va_start(args, format);
     vsprintf(buffer, format, args);
     va_end(args);
-    lcd_show_string(x, y, (lcddev.width - x), lcddev.height - y, 16, buffer, BLUE);
+    lcd_show_string(x, y, (lcddev.width - x - 10), lcddev.height - y, 16, buffer, BLUE);
 }
 
 
